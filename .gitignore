@@ -1,0 +1,23 @@
+# macOS system files
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+.env
+
+# C++ 
+*.o
+*.out
+build/
+
+# Verification artifacts
+*.trail
+pan
+pan.*

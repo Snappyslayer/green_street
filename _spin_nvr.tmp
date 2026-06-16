@@ -1,0 +1,22 @@
+never safety {    /* !([] ((! ((node_status==OFFLINE))) || (<> ((coord_cmd==SAFE_DEFAULT_60))))) */
+T0_init:
+	do
+	:: (! ((! ((node_status==OFFLINE)))) && ! (((coord_cmd==SAFE_DEFAULT_60)))) -> goto accept_S4
+	:: (1) -> goto T0_init
+	od;
+accept_S4:
+	do
+	:: (! (((coord_cmd==SAFE_DEFAULT_60)))) -> goto accept_S4
+	od;
+}
+never liveness {    /* !([] ((! (((node_status==ONLINE)) && ((node_event==MOTION)))) || (<> ((coord_cmd==HIGH_100))))) */
+T0_init:
+	do
+	:: (! ((! (((node_status==ONLINE)) && ((node_event==MOTION))))) && ! (((coord_cmd==HIGH_100)))) -> goto accept_S4
+	:: (1) -> goto T0_init
+	od;
+accept_S4:
+	do
+	:: (! (((coord_cmd==HIGH_100)))) -> goto accept_S4
+	od;
+}
