@@ -11,7 +11,7 @@ This project implements an event-driven Smart City lighting infrastructure. It u
 * **Formal Verification:** Spin/Promela models that mathematically prove strict safety bounds, liveness, and bounded recovery.
 
 ## Documentation
-Please refer to the following files in this repository for execution and compliance details:
-* **REPRODUCIBILITY.md** - Instructions for environment setup, running the simulation, and executing the formal verification proofs.
-* **AI_DISCLOSURE.md** - Details on how Generative AI tools were utilized, modified, and validated during development.
-* **report/measurement_report.md** - Latency and failover performance metrics for the LWT implementation.
+Please refer to the following files for execution and compliance details:
+* [Reproducibility Guide](./REPRODUCIBILITY.md) - Instructions for environment setup, running the simulation, and executing the formal verification proofs.
+* [Generative AI Disclosure](./AI_DISCLOSURE.md) - Details on how Generative AI tools were utilized, modified, and validated during development.
+* [Measurement Report](./report/measurement_report.md) - Latency and failover performance metrics for the LWT implementation.
