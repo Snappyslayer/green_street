@@ -1,42 +1,29 @@
 import time
-import random
 import json
+import random
 import paho.mqtt.client as mqtt
 
 NODE_ID = "node_street1_01"
 BROKER = "localhost"
-PORT = 1883
-TOPIC_STATUS = f"street/nodes/{NODE_ID}/status"
-TOPIC_EVENTS = f"street/nodes/{NODE_ID}/events"
 
 client = mqtt.Client(callback_api_version=mqtt.CallbackAPIVersion.VERSION2)
 
-print(f"Connecting to MQTT broker at {BROKER}...")
-client.connect(BROKER, PORT, 60)
+# FIX: MQTT Last Will and Testament (LWT) configured here
+client.will_set(f"street/nodes/{NODE_ID}/status", json.dumps({"status": "OFFLINE"}), qos=1, retain=True)
+client.connect(BROKER, 1883, 60)
 client.loop_start()
 
 try:
     while True:
-        # 1. Send periodic Heartbeat (Status)
-        status_payload = {"status": "ONLINE", "timestamp": time.time()}
-        client.publish(TOPIC_STATUS, json.dumps(status_payload), qos=1, retain=True)
-        print(f"[{NODE_ID}] Sent Heartbeat")
-
-        # 2. Simulate random motion detection events
-        if random.random() > 0.6:
-            event_payload = {
-                "event": "MOTION_DETECTED",
-                "ambient_light": random.randint(10, 40), # Low lux
-                "timestamp": time.time()
-            }
-            client.publish(TOPIC_EVENTS, json.dumps(event_payload), qos=1)
-            print(f"[{NODE_ID}] 🚶 Motion detected! Event published.")
+        client.publish(f"street/nodes/{NODE_ID}/status", json.dumps({"status": "ONLINE"}), qos=1)
         
-        time.sleep(5) # Send updates every 5 seconds
-
+        # FIX: Added NO_MOTION event to clear the state lock
+        if random.random() < 0.3:
+            client.publish(f"street/nodes/{NODE_ID}/events", json.dumps({"event": "MOTION_DETECTED"}), qos=1)
+            time.sleep(4) 
+            client.publish(f"street/nodes/{NODE_ID}/events", json.dumps({"event": "NO_MOTION"}), qos=1)
+        
+        time.sleep(5)
 except KeyboardInterrupt:
-    print("\nDisconnecting node gracefully...")
-    # Clean up state on exit by marking node as offline
-    client.publish(TOPIC_STATUS, json.dumps({"status": "OFFLINE", "timestamp": time.time()}), qos=1, retain=True)
-    client.loop_stop()
+    client.publish(f"street/nodes/{NODE_ID}/status", json.dumps({"status": "OFFLINE"}), qos=1, retain=True)
     client.disconnect()
