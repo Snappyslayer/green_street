@@ -1,0 +1,15 @@
+Green Street verification properties
+
+1. Safety property
+Meaning: the coordinator never commands an undefined brightness level.
+LTL: [] (brightness != UNDEFINED)
+
+2. Liveness property
+Meaning: if a node becomes online/reachable again, the coordinator eventually resumes adaptive control.
+LTL: [] (node_online -> <> adaptive_control)
+
+Spin commands on macOS after installing spin:
+
+spin -a verification/coordinator_model.pml
+gcc -o pan pan.c
+./pan -a

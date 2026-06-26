@@ -1,0 +1,17 @@
+"""Common configuration for the Green Street Digital Twin project."""
+
+MQTT_BROKER = "localhost"
+MQTT_PORT = 1883
+MQTT_TOPIC = "greenstreet/+/status"
+
+NODE_IDS = ["light_1", "light_2", "light_3", "light_4"]
+
+BRIGHTNESS_LOW = 30
+BRIGHTNESS_MEDIUM = 60
+BRIGHTNESS_HIGH = 100
+BRIGHTNESS_SAFE_DEFAULT = 50
+BRIGHTNESS_UNDEFINED = -1
+
+STALE_THRESHOLD_SECONDS = 10
+AMBIENT_DARK_THRESHOLD = 40
+PUBLISH_INTERVAL_SECONDS = 3
