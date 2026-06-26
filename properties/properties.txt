@@ -1,0 +1,25 @@
+Green Street Verification Properties
+
+1. Safety property
+
+The coordinator must never command an undefined brightness level.
+
+LTL:
+[] (brightness != UNDEFINED)
+
+Meaning:
+Always, brightness is not undefined.
+
+2. Liveness property
+
+If a node becomes online again, the coordinator should eventually resume adaptive control.
+
+LTL:
+[] (node_online -> <> adaptive_control)
+
+Meaning:
+Always, if the node is online, eventually adaptive_control becomes true.
+
+3. Informal bounded recovery requirement
+
+After a node returns online, the coordinator should leave safe-default mode and return to adaptive brightness within a limited number of control cycles.
